@@ -25,7 +25,7 @@ app.get('/stock', function (req,res) {
     });
 });
 
-app.post('/stock', function (req,res) {
+app.post('/stock', function (req,res,next) {
     p.then(function (collection) {
         return collection.updateOne({isbn: req.body.isbn}, {
             isbn: req.body.isbn,
@@ -33,7 +33,7 @@ app.post('/stock', function (req,res) {
         }, {upsert: true}).then(function () {
             res.send('Hello World');
         });
-    });
+    }).catch(next);
 });
 
 app.use(function (req, res, next) {
