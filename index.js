@@ -15,9 +15,15 @@ app.get('/', function (req,res) {
     res.send('Hello World2');
 });
 
+app.use(function (req, res, next) {
+    var error = new Error('not found');
+    error.status = 404;
+    next(err);
+});
+
 app.use(function (err, req, res, next) {
-    console.log('Error 1');
-    res.status(500);
+    console.log(err.stack);
+    res.status(err.status || 500).send('Error ' + err.message);
 });
 
 app.listen(3000, function () {
