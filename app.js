@@ -2,6 +2,8 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+var MongoClient = require('mongodb').MongoClient
+var url = 'mongodb://localhost:27017/myproject';
 
 app.use(bodyParser.json());
 
@@ -11,12 +13,22 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', function (req,res) {
+    MongoClient.connect(url, function(err, db) {
+        console.log("Connected succesfully to server");
+        db.close();
+    });
     res.send('Hello World2');
 });
 
 app.post('/stock', function (req,res) {
-    console.log(req.body);
-    res.send(req.body);
+    MongoClient.connect(url, function(err, db) {
+        db.collection('books').updateOne({isbn: req.body.isbn}, {
+            isbn: req.body.isbn,
+            count: req.body.count
+        }, {upsert: true});
+        db.close();
+    });
+    res.send('Hello World');
 });
 
 app.use(function (req, res, next) {
