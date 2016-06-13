@@ -2,18 +2,8 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
-var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/myproject';
-
-
-var p = MongoClient.connect(url, {
-    db: { bufferMaxEntries: 0 }
-}).then(function(db) {
-    return db.collection('books');
-}).catch(function (err) {
-    console.log(err);
-    process.exit(1);
-});
+var factory = require('./StockRepository');
+var repository = factory();
 
 app.use(bodyParser.json());
 
@@ -23,22 +13,16 @@ app.use(function (req, res, next) {
 });
 
 app.get('/stock', function (req,res, next) {
-    p.then(function (collection) {
-        return collection.find({}).toArray().then(function (result) {
+    repository.findAll().then(function (result) {
             res.json(result);
-        })
     }).catch(next);
 });
 
 app.post('/stock', function (req,res,next) {
-    p.then(function (collection) {
-        return collection.updateOne({isbn: req.body.isbn}, {
-            isbn: req.body.isbn,
-            count: req.body.count
-        }, {upsert: true}).then(function () {
+    repository.stockUp(req.body.isbn,req.body.count)
+        .then(function () {
             res.send('Hello World');
-        });
-    }).catch(next);
+        }).catch(next);
 });
 
 app.use(function (req, res, next) {
