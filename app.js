@@ -6,8 +6,13 @@ var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/myproject';
 
 
-var p = MongoClient.connect(url).then(function(db) {
+var p = MongoClient.connect(url, {
+    db: { bufferMaxEntries: 0 }
+}).then(function(db) {
     return db.collection('books');
+}).catch(function (err) {
+    console.log(err);
+    process.exit(1);
 });
 
 app.use(bodyParser.json());
@@ -17,12 +22,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/stock', function (req,res) {
+app.get('/stock', function (req,res, next) {
     p.then(function (collection) {
         return collection.find({}).toArray().then(function (result) {
             res.json(result);
         })
-    });
+    }).catch(next);
 });
 
 app.post('/stock', function (req,res,next) {
