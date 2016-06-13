@@ -2,8 +2,13 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
-var MongoClient = require('mongodb').MongoClient
+var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/myproject';
+
+
+var p = MongoClient.connect(url).then(function(db) {
+    return db.collection('books');
+});
 
 app.use(bodyParser.json());
 
@@ -12,24 +17,23 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/', function (req,res) {
-    MongoClient.connect(url, function(err, db) {
-        db.collection('books').find({}).toArray( function (err,result) {
+app.get('/stock', function (req,res) {
+    p.then(function (collection) {
+        return collection.find({}).toArray().then(function (result) {
             res.json(result);
-            db.close();
-        });
+        })
     });
 });
 
 app.post('/stock', function (req,res) {
-    MongoClient.connect(url, function(err, db) {
-        db.collection('books').updateOne({isbn: req.body.isbn}, {
+    p.then(function (collection) {
+        return collection.updateOne({isbn: req.body.isbn}, {
             isbn: req.body.isbn,
             count: req.body.count
-        }, {upsert: true});
-        db.close();
+        }, {upsert: true}).then(function () {
+            res.send('Hello World');
+        });
     });
-    res.send('Hello World');
 });
 
 app.use(function (req, res, next) {
