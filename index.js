@@ -2,8 +2,11 @@
 //   Copyright (C) 2016 Motorola Solutions, Inc.
 // </copyright>
 
+var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+
+app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
     console.log('new request at ' + new Date());
@@ -11,8 +14,12 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', function (req,res) {
-    throw new Error('Something bad happened');
     res.send('Hello World2');
+});
+
+app.post('/stock', function (req,res) {
+    console.log(req.body);
+    res.send(req.body);
 });
 
 app.use(function (req, res, next) {
