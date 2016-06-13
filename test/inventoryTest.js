@@ -3,6 +3,8 @@
 // </copyright>
 var assert = require('assert');
 var sum = require('../sum');
+var app = require('../app');
+var request = require('supertest');
 
 describe('Math in js', function () {
     it('should support addition',function (done) {
@@ -11,4 +13,33 @@ describe('Math in js', function () {
             done();
         },500);
     });
+});
+
+
+describe('GET /',function () {
+   it('should render hello word',function () {
+       request(app)
+           .get('/')
+           .expect('Hello World2')
+           .expect(200)
+           .end(function(err, res) {
+               if (err) throw err;
+           });
+   }) ;
+});
+
+describe('POST /',function () {
+    it('should send echo',function (done) {
+        request(app)
+            .post('/stock')
+            .send({
+                isbn: '12334',
+                count: '5'
+            })
+            .set('Accept', 'application/json')
+            .expect(200, {
+                isbn: '12334',
+                count: '5'
+            }, done);
+    }) ;
 });
