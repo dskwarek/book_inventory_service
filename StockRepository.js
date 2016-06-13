@@ -10,22 +10,29 @@ var p = MongoClient.connect(url, {
     process.exit(1);
 });
 
-var repository = function createStockRepository() {
-    return {
-        findAll: function () {
-            return p.then(function (collection) {
-                return collection.find({}).toArray();
-            });
-        },
-        stockUp: function (isbn, count) {
-            return p.then(function (collection) {
-                return collection.updateOne({isbn: isbn}, {
-                    isbn: isbn,
-                    count: count
-                }, {upsert: true});
-            });
-        }
+module.exports  = {
+    findAll: function () {
+        return p.then(function (collection) {
+            return collection.find({}).toArray();
+        });
+    },
+    stockUp: function (isbn, count) {
+        return p.then(function (collection) {
+            return collection.updateOne({isbn: isbn}, {
+                isbn: isbn,
+                count: count
+            }, {upsert: true});
+        });
+    },
+    getCount: function (isbn) {
+        return p.then(function (collection) {
+            return collection.find({"isbn": isbn}).limit(1).next();
+        }).then(function (result) {
+            if (result) {
+                return result.count;
+            } else {
+                return null;
+            }
+        });
     }
-};
-
-module.exports = repository;
+}
