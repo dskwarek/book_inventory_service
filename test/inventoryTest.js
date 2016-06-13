@@ -2,12 +2,13 @@
 //   Copyright (C) 2016 Motorola Solutions, Inc.
 // </copyright>
 var assert = require('assert');
+var sum = require('../sum');
 
 describe('Math in js', function () {
     it('should support addition',function (done) {
         setTimeout(function () {
-            assert.equal(1 + 1,2);
+            assert.equal(sum(1,1),2);
             done();
-        },1000);
+        },500);
     });
 });
