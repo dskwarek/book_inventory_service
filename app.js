@@ -14,10 +14,11 @@ app.use(function (req, res, next) {
 
 app.get('/', function (req,res) {
     MongoClient.connect(url, function(err, db) {
-        console.log("Connected succesfully to server");
-        db.close();
+        db.collection('books').find({}).toArray( function (err,result) {
+            res.json(result);
+            db.close();
+        });
     });
-    res.send('Hello World2');
 });
 
 app.post('/stock', function (req,res) {
