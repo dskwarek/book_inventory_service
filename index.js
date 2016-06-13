@@ -10,19 +10,14 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(function (req, res, next) {
-    console.log('auth ' + new Date());
-    next();
+app.get('/', function (req,res) {
+    throw new Error('Something bad happened');
+    res.send('Hello World2');
 });
 
-var f = function(req,res,next){
-    console.log('local ' + new Date());
-    next();
-};
-
-app.get('/',f,
-    function (req,res) {
-    res.send('Hello World');
+app.use(function (err, req, res, next) {
+    console.log('Error 1');
+    res.status(500);
 });
 
 app.listen(3000, function () {
