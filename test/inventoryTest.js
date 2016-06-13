@@ -36,7 +36,7 @@ describe('POST /',function () {
                 isbn: '12334',
                 count: '5'
             })
-            .set('Accept', 'application/json')
+            .expect('Content-Type',/json/)
             .expect(200, {
                 isbn: '12334',
                 count: '5'
