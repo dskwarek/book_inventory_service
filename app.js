@@ -9,6 +9,7 @@ module.exports = function (repository) {
     app.use(bodyParser.json());
     app.use(middleware.logRequest);
 
+    app.get('/',routes.hello);
     app.get('/stock',routes.findAll);
     app.post('/stock',routes.stockUp);
     app.get('/stock/:isbn',routes.getCount);

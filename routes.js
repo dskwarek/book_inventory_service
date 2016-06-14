@@ -26,6 +26,9 @@ module.exports = function(repository) {
                     next();
                 }
             }).catch(next);
+        },
+        hello: function (req,res,next) {
+            res.send('Hello World');
         }
     }
 }
