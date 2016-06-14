@@ -2,7 +2,7 @@
 //   Copyright (C) 2016 Motorola Solutions, Inc.
 // </copyright>
 
-var stockRepository = require('./stockRepository');
+var stockRepository = require('./StockRepository');
 var app = require('./app')(stockRepository);
 
 app.listen(process.env.PORT || 3000, function () {
