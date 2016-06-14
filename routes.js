@@ -25,7 +25,7 @@ module.exports = function(repository) {
             }).catch(next);
         },
         hello: function (req,res,next) {
-            res.send('Hello World');
+            res.send('Hello World' + process.env.NODE_ENV);
         }
     }
 }
