@@ -1,6 +1,4 @@
-// <copyright file="index" company="Motorola Solutions, Inc.">
-//   Copyright (C) 2016 Motorola Solutions, Inc.
-// </copyright>
+
 
 var stockRepository = require('./StockRepository');
 var app = require('./app')(stockRepository);

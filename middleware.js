@@ -1,6 +1,4 @@
-// <copyright file="middleware" company="Motorola Solutions, Inc.">
-//   Copyright (C) 2016 Motorola Solutions, Inc.
-// </copyright>
+
 
 module.exports =  {
     logRequest: function (req, res, next) {

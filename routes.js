@@ -1,6 +1,3 @@
-// <copyright file="routes" company="Motorola Solutions, Inc.">
-//   Copyright (C) 2016 Motorola Solutions, Inc.
-// </copyright>
 
 
 module.exports = function(repository) {
