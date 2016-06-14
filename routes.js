@@ -4,7 +4,13 @@ module.exports = function(repository) {
     return {
         findAll: function (req, res, next) {
             repository.findAll().then(function (result) {
-                res.json(result);
+                res.format({
+                    'text/html': function(){
+                        res.send('<h1>Hello</h1>');
+                    },
+                    'application/json': function(){
+                        res.json(result);
+                    },});
             }).catch(next);
         }
         ,
