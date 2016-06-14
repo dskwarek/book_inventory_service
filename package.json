@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "jshint --exclude=node_modules/** .",
+    "test:xunit": "npm run test -- --reporter xunit"
   },
   "author": "Darek",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "mongodb": "2.1.18"
   },
   "devDependencies": {
+    "jshint": "2.9.2",
     "mocha": "2.5.3",
     "nodemon": "1.9.2",
     "supertest": "1.2.0"
