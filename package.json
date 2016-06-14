@@ -20,6 +20,7 @@
   "devDependencies": {
     "heroin-js": "1.12.2",
     "jshint": "2.9.2",
+    "lodash": "4.13.1",
     "mocha": "2.5.3",
     "nodemon": "1.9.2",
     "supertest": "1.2.0"
