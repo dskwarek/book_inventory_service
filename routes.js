@@ -24,7 +24,13 @@ module.exports = function(repository) {
         getCount: function (req, res, next) {
             repository.getCount(req.params.isbn).then(function (result) {
                 if (result) {
-                    res.json({count: result});
+                    res.format({
+                        'text/html': function(){
+                            res.send('<div>Copies left: ' + result + '</div>');
+                        },
+                        'default': function(){
+                            res.json(result);
+                        },});
                 } else {
                     next();
                 }
