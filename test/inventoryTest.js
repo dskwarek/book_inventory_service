@@ -5,7 +5,9 @@ var assert = require('assert');
 var sum = require('../sum');
 var request = require('supertest');
 var inMemoryRepository  = require('../inMemoryRepository');
-var app = require('../app.js')(inMemoryRepository());
+var app = require('../app.js')(inMemoryRepository(), function(req, res, next) {
+    next();
+});
 
 describe('Math in js', function () {
     it('should support addition',function (done) {
@@ -16,18 +18,6 @@ describe('Math in js', function () {
     });
 });
 
-
-// describe('GET /',function () {
-//    it('should render hello word',function () {
-//        request(app)
-//            .get('/stock')
-//            .expect('Hello World2')
-//            .expect(200)
-//            .end(function(err, res) {
-//                if (err) throw err;
-//            });
-//    }) ;
-// });
 
 describe('POST /',function () {
     it('should send echo',function (done) {
